@@ -4,11 +4,11 @@ import os
 import threading
 from flask import Flask
 
-# 🚀 APNA ASLI BOT TOKEN YAHAN DAALNA MAT BHOOLNA
+# 🚀 APNA ASLI BOT TOKEN YAHAN DAALNA
 API_TOKEN = '8516164180:AAFTn62ylXWc0PytqpQP5AfD4RghbbCFpcM'
 bot = telebot.TeleBot(API_TOKEN)
 
-# Render ko khush rakhne ke liye ek chota sa Web Server
+# Render server
 app = Flask(__name__)
 
 @app.route('/')
@@ -22,20 +22,22 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_link(message):
-    original_url = message.text
-    safe_url = urllib.parse.quote(original_url, safe='')
-    watchit_deep_link = f"watchitapp://play?url={safe_url}"
+    original_url = message.text.strip()
     
-    # 🚀 CRASH-PROOF MESSAGE DESIGN (Triple quotes use kiye hain)
-    response_msg = f"""🎬 *Ready to Play!* 🎬
+    # URL ko safe banaya
+    safe_url = urllib.parse.quote(original_url, safe='')
+    
+    # 🚀 JADOO YAHAN HAI: HTML code se ugly link ko chhupa diya aur mast button bana diya
+    response_msg = f"""🎬 <b>Ready to Play!</b> 🎬
 
-Click the link below to watch this video in Ultra HD on WATCHit Player:
+Tap the link below to watch this video directly in your app:
 
-👉 {watchit_deep_link}
+👉 <a href="watchitapp://play?url={safe_url}"><b>▶️ PLAY IN WATCHit APP</b></a> 👈
 
-_(Note: Agar app installed nahi hai, toh pehle PlayStore se download karein)_"""
+<i>(Note: Agar app installed nahi hai, toh link kaam nahi karega)</i>"""
 
-    bot.reply_to(message, response_msg, parse_mode="Markdown")
+    # parse_mode="HTML" use kiya hai taaki design kaam kare
+    bot.reply_to(message, response_msg, parse_mode="HTML")
 
 # ----------------- START SERVER & BOT -----------------
 def run_bot():
@@ -43,9 +45,6 @@ def run_bot():
     bot.polling(non_stop=True)
 
 if __name__ == "__main__":
-    # Bot ko background me chalao
     threading.Thread(target=run_bot).start()
-    
-    # Render ke liye Web Server chalao
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
