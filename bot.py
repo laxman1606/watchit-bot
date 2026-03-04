@@ -4,7 +4,7 @@ import os
 import threading
 from flask import Flask
 
-# APNA BOT TOKEN YAHAN DAALEIN
+# 🚀 APNA ASLI BOT TOKEN YAHAN DAALNA MAT BHOOLNA
 API_TOKEN = '8516164180:AAFTn62ylXWc0PytqpQP5AfD4RghbbCFpcM'
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -24,14 +24,17 @@ def send_welcome(message):
 def handle_link(message):
     original_url = message.text
     safe_url = urllib.parse.quote(original_url, safe='')
-    watchit_deep_link = f"watchitapp://play?url={safe_url}""
+    watchit_deep_link = f"watchitapp://play?url={safe_url}"
     
-    response_msg = (
-        "🎬 **Ready to Play!** 🎬\n\n"
-        "Click the link below to watch this video in Ultra HD on WATCHit Player:\n\n"
-        f"👉 {watchit_deep_link}\n\n"
-        "_(Note: Agar app installed nahi hai, toh pehle PlayStore se download karein)_"
-    )
+    # 🚀 CRASH-PROOF MESSAGE DESIGN (Triple quotes use kiye hain)
+    response_msg = f"""🎬 *Ready to Play!* 🎬
+
+Click the link below to watch this video in Ultra HD on WATCHit Player:
+
+👉 {watchit_deep_link}
+
+_(Note: Agar app installed nahi hai, toh pehle PlayStore se download karein)_"""
+
     bot.reply_to(message, response_msg, parse_mode="Markdown")
 
 # ----------------- START SERVER & BOT -----------------
