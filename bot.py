@@ -24,7 +24,7 @@ def send_welcome(message):
 def handle_link(message):
     original_url = message.text
     safe_url = urllib.parse.quote(original_url, safe='')
-    watchit_deep_link = f"https://watchit.com/play?url={safe_url}"
+    watchit_deep_link = f"watchitapp://play?url={safe_url}""
     
     response_msg = (
         "🎬 **Ready to Play!** 🎬\n\n"
