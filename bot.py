@@ -1,13 +1,17 @@
 import telebot
+import urllib.parse
 import os
 import threading
 from flask import Flask
+import yt_dlp
 
-# 🚀 SECURE: Token ko code me mat likho, Render se uthao
-API_TOKEN = os.environ.get('BOT_TOKEN') 
+# Render ke "Environment" se token uthayein
+API_TOKEN = os.environ.get('BOT_TOKEN')
+if not API_TOKEN:
+    raise ValueError("BOT_TOKEN is not set in Render Environment Variables!")
+
 bot = telebot.TeleBot(API_TOKEN)
-
-# ... (baaki ka code waisa hi rahega)
+# ... baki code waisa hi ...
 
 # 2. RENDER SERVER (Zinda rakhne ke liye)
 app = Flask(__name__)
